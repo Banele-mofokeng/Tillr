@@ -26,6 +26,13 @@ public class SalesController : ControllerBase
         return Ok(sales);
     }
 
+    [HttpGet("{businessId}/by-date")]
+    public async Task<IActionResult> GetByDate(Guid businessId, [FromQuery] DateTime date)
+    {
+        var sales = await _query.GetByDateAsync(businessId, date);
+        return Ok(sales);
+    }
+
     [HttpGet("{businessId}/summary")]
     public async Task<IActionResult> GetSummary(Guid businessId, [FromQuery] DateTime? date)
     {

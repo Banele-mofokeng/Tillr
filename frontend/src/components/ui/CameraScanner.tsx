@@ -1,4 +1,5 @@
-import { BrowserMultiFormatReader, NotFoundException } from '@zxing/browser';
+import { BrowserMultiFormatReader } from '@zxing/browser';
+import { NotFoundException } from '@zxing/library';
 import { useEffect, useRef, useState } from 'react';
 
 interface Props {

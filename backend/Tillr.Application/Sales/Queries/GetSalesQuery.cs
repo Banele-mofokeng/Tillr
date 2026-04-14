@@ -32,12 +32,16 @@ public class GetSalesQuery
 
     public GetSalesQuery(AppDbContext db) => _db = db;
 
-    public async Task<List<SaleDto>> GetTodayAsync(Guid businessId)
+    public Task<List<SaleDto>> GetTodayAsync(Guid businessId)
+        => GetByDateAsync(businessId, DateTime.UtcNow.Date);
+
+    public async Task<List<SaleDto>> GetByDateAsync(Guid businessId, DateTime date)
     {
-        var today = DateTime.UtcNow.Date;
+        var start = date.Date;
+        var end = start.AddDays(1);
 
         return await _db.Sales
-            .Where(s => s.BusinessId == businessId && s.CreatedAt >= today)
+            .Where(s => s.BusinessId == businessId && s.CreatedAt >= start && s.CreatedAt < end)
             .OrderByDescending(s => s.CreatedAt)
             .Select(s => new SaleDto(
                 s.Id,

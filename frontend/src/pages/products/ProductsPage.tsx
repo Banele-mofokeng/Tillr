@@ -35,6 +35,7 @@ export default function ProductsPage() {
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState('');
   const [search, setSearch] = useState('');
+  const [confirmDeleteId, setConfirmDeleteId] = useState<string | null>(null);
 
   const load = () => {
     if (!business) return;
@@ -99,9 +100,10 @@ export default function ProductsPage() {
     }
   };
 
-  const handleDelete = async (productId: string) => {
-    if (!business || !confirm('Remove this product?')) return;
-    await deleteProduct(productId, business.businessId);
+  const handleDelete = async () => {
+    if (!business || !confirmDeleteId) return;
+    await deleteProduct(confirmDeleteId, business.businessId);
+    setConfirmDeleteId(null);
     load();
   };
 
@@ -122,6 +124,33 @@ export default function ProductsPage() {
     <>
       {showCamera && (
         <CameraScanner onScan={handleBarcodeScan} onClose={() => setShowCamera(false)} />
+      )}
+
+      {confirmDeleteId && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-6 bg-black/60">
+          <div className="bg-neutral-900 border border-neutral-700 rounded-2xl p-6 w-full max-w-sm space-y-4 shadow-xl">
+            <div>
+              <p className="text-white font-bold text-base">Remove this product?</p>
+              <p className="text-neutral-400 text-sm mt-1">This action cannot be undone.</p>
+            </div>
+            <div className="flex gap-3">
+              <button
+                type="button"
+                onClick={() => setConfirmDeleteId(null)}
+                className="flex-1 bg-neutral-800 hover:bg-neutral-700 text-white font-semibold rounded-xl py-3 text-sm transition-colors"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                onClick={handleDelete}
+                className="flex-1 bg-red-600 hover:bg-red-500 text-white font-bold rounded-xl py-3 text-sm transition-colors"
+              >
+                Remove
+              </button>
+            </div>
+          </div>
+        </div>
       )}
 
       {/* Product form modal */}
@@ -290,7 +319,7 @@ export default function ProductsPage() {
                     Edit
                   </button>
                   <button
-                    onClick={() => handleDelete(p.id)}
+                    onClick={() => setConfirmDeleteId(p.id)}
                     className="text-neutral-600 hover:text-red-400 text-sm px-2 py-1 rounded-lg hover:bg-neutral-800 transition-colors"
                   >
                     ✕

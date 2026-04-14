@@ -9,6 +9,9 @@ export const login = (slug: string, pin: string) =>
 export const getSalesToday = (businessId: string): Promise<Sale[]> =>
   api.get(`/sales/${businessId}/today`).then(r => r.data);
 
+export const getSalesByDate = (businessId: string, date: string): Promise<Sale[]> =>
+  api.get(`/sales/${businessId}/by-date`, { params: { date } }).then(r => r.data);
+
 export const getDailySummary = (businessId: string, date?: string): Promise<DailySummary> =>
   api.get(`/sales/${businessId}/summary`, { params: { date } }).then(r => r.data);
 

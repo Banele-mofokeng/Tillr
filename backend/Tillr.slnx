@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="Tillr.API/Tillr.API.csproj" />
+  <Project Path="Tillr.Application/Tillr.Application.csproj" />
+  <Project Path="Tillr.Domain/Tillr.Domain.csproj" />
+  <Project Path="Tillr.Infrastructure/Tillr.Infrastructure.csproj" />
+</Solution>
