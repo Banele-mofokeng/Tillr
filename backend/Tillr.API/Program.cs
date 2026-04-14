@@ -32,7 +32,10 @@ builder.Services.AddScoped<AuthService>();
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFrontend", policy =>
-        policy.WithOrigins("http://localhost:5173")
+        policy.WithOrigins(
+                  "http://localhost:5173",
+                  "https://tillr-tillr-web.a8x5ve.easypanel.host"
+              )
               .AllowAnyHeader()
               .AllowAnyMethod());
 });
